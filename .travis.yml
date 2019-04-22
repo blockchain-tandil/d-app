@@ -1,0 +1,10 @@
+language: node_js
+cache: npm
+jobs:
+  include:
+    - stage: test
+      script: npm run tsc    
+    - stage: deploy
+      if: branch = master AND type = push
+      before_script: npm i -g now
+      script: npm run deploy:production
