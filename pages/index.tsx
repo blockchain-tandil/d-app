@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Layout from '../components/Layout'
-import List from '../components/List';
+import List from '../components/NumberList';
 
 const IndexPage: React.FunctionComponent = () => {
   return (
