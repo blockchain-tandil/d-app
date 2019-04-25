@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "tsc": "tsc",
-    "deploy:production": "now --target production --token=$NOW_TOKEN --team=$TEAM_NAME"
+    "deploy:production": "now --target production --token=$NOW_TOKEN --scope=$TEAM_NAME"
   },
   "dependencies": {
     "@material-ui/core": "^3.9.3",
