@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Layout from '../components/Layout'
+import Layout from '../layouts/Main'
 
 const AboutPage: React.FunctionComponent = () => (
   <Layout title="About | demo app for Blockchain Tandil">
