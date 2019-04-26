@@ -4,15 +4,19 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
+    "build:all": "rm -rf node_modules package-lock.json .next && npm i && next build",
+    "now-build": "npm run build",
     "start": "next start",
+    "now-start": "npm start",
     "tsc": "tsc",
-    "deploy:production": "now --target production --token=$NOW_TOKEN --scope=$TEAM_NAME"
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@zeit/next-typescript": "^1.1.1",
     "ethers": "^4.0.27",
-    "next": "7.0.3",
+    "next": "^8.1.1-canary.14",
+    "patch-package": "^6.1.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "styled-jsx": "^3.2.1",
@@ -24,6 +28,7 @@
     "@types/react-dom": "16.0.11",
     "@types/styled-jsx": "^2.2.8",
     "@types/web3": "^1.0.18",
+    "node-loader": "^0.6.0",
     "typescript": "3.2.4"
   },
   "license": "ISC"
