@@ -3,7 +3,7 @@ const path = require('path');
 
 
 module.exports = withTypescript({
-    // target: 'serverless',
+    target: 'serverless',
     webpack: (config, options) => {
       config.resolve.extensions.push('.node');
         console.log(config.resolve.extensions);
