@@ -1,7 +1,7 @@
 import * as React from 'react'
-import Link from 'next/link'
 import Head from 'next/head'
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 type Props = {
   title?: string,
@@ -15,13 +15,7 @@ const Layout: React.FunctionComponent<Props> = ({ children, title = 'Blockchain 
         <meta charSet='utf-8' />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
-      <header>
-        <nav>
-          <Link href='/'><a>Home</a></Link> | {' '}
-          <Link href='#'><a>Explorer</a></Link> | {' '}
-          <Link href='/about'><a>About</a></Link> | {' '}
-        </nav>
-      </header>
+      <Header />
       {children}
       <Footer />
     </div>
