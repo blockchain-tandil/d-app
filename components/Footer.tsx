@@ -20,7 +20,6 @@ class Footer extends React.Component<{}, FooterState> {
   async componentDidMount() {
     await ethereum.enable();
     const accounts = await web3.eth.getAccounts();
-    console.log(accounts);
     this.setState({
       account: accounts[0],
       accounts,
