@@ -11,10 +11,14 @@ import logger from '../../contracts/Logger.json';
 
 type INumberListState = {
   account: string,
-  numbers: number[],
+  numbers: {  
+    someNumber?: number,
+    from?: string,
+  }[],
   inputValue: string,
   contractAddress: string,
   contractInstance: any,
+  startBlock: number,
 };
 
 class NumberList extends React.Component<{},INumberListState> {
@@ -25,6 +29,7 @@ class NumberList extends React.Component<{},INumberListState> {
     inputValue: '',
     contractAddress: '0x353515bD9ee5dADdcd2D16d4dDdF891AF99C4D4f',
     contractInstance: {},
+    startBlock: 5484686, // Contract creation block
   }
 
   handleInputChange = (e: any) => {
@@ -41,16 +46,8 @@ class NumberList extends React.Component<{},INumberListState> {
 
   handleOnClick = async () => {
     const { inputValue, contractInstance, account } = this.state;
-    console.log(contractInstance);
     await contractInstance.methods.store(inputValue).send({from: account});
-    this.setState(prevState => {
-      prevState.numbers.push(parseInt(inputValue));
-      const newState = {
-        numbers : prevState.numbers,
-        inputValue: '',
-      }
-      return newState;
-    })
+    this.setState({inputValue: ''})
   }
 
   async componentDidMount() {
@@ -64,9 +61,34 @@ class NumberList extends React.Component<{},INumberListState> {
     });
   }
 
+  handleReadEvents = async () => {
+    const { contractInstance, startBlock } = this.state;
+
+    contractInstance.events.stored({
+      fromBlock: startBlock, // startBlock
+  })
+  .on('data', (event) => {
+      const someNumber = parseInt(event.returnValues.someNumber); // SomeNumber is the named param in the event
+      const from = event.returnValues.from; // SomeNumber is the named param in the event
+
+      this.setState(prevState => {
+        prevState.numbers.push({
+          someNumber,
+          from,
+        });
+        const newState = {
+          numbers : prevState.numbers,
+          inputValue: '',
+        }
+        return newState;
+      })
+  })
+  .on('error', console.error);
+  }
+
   render () {
     const { numbers, inputValue, contractAddress } = this.state;
-    const { handleOnClick, handleInputChange, handleAddressChange } = this;
+    const { handleOnClick, handleInputChange, handleAddressChange, handleReadEvents } = this;
     return (
       <div>
         <Grid container>
@@ -76,6 +98,9 @@ class NumberList extends React.Component<{},INumberListState> {
               value={contractAddress}
               fullWidth
             />
+          </Grid>
+          <Grid item xs={4}>
+            <Button onClick={handleReadEvents}>Read Events!</Button>
           </Grid>
           <Grid item xs={8}>
             <Input 
@@ -88,10 +113,11 @@ class NumberList extends React.Component<{},INumberListState> {
             <Button onClick={handleOnClick}>Save</Button>
           </Grid>
           <Grid item xs={12}>
-            <List>{numbers.map(number => (
-              <ListItem key={number}>
+            <List>{numbers.map(({someNumber, from}) => (
+              <ListItem key={someNumber}>
                 <ListItemText
-                  primary={number}
+                  primary={someNumber}
+                  secondary={from}
                 />
               </ListItem>))}
             </List>
