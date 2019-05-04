@@ -91,28 +91,28 @@ class NumberList extends React.Component<{},INumberListState> {
     const { handleOnClick, handleInputChange, handleAddressChange, handleReadEvents } = this;
     return (
       <div>
-        <Grid container>
-          <Grid item xs={8}>
+        <Grid container spacing={24}>
+          <Grid item xs={8} spacing={8}>
             <Input 
               onChange={handleAddressChange}
               value={contractAddress}
               fullWidth
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} spacing={8}>
             <Button onClick={handleReadEvents}>Read Events!</Button>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={8} spacing={8}>
             <Input 
               onChange={handleInputChange}
               value={inputValue}
               fullWidth
               />
             </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} spacing={8}>
             <Button onClick={handleOnClick}>Save</Button>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} spacing={8}>
             <List>{numbers.map(({someNumber, from}) => (
               <ListItem key={someNumber}>
                 <ListItemText
