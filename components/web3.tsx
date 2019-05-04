@@ -1,5 +1,11 @@
+import * as React from 'react'; 
 import Web3 from "web3";
 import { provider } from "web3-providers";
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 
 declare global {
   interface Window {
@@ -29,7 +35,7 @@ if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
     web3 = new Web3(web3.currentProvider);
   }
 } else {
-  // We are on the server or user not running Metamask
+  // We are on the server
   const provider = new Web3.providers.HttpProvider(
     infura
   );
@@ -37,7 +43,25 @@ if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
   web3 = new Web3(provider);
 }
 
+
+
+
+const WithMetamask = ({ children }) => {
+  if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") return (<React.Fragment>{children}</React.Fragment>);
+  return (
+    <Dialog open> 
+      <DialogTitle>Action required</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Please, install and allow <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer"> Metamask</a>
+        </DialogContentText>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export {
   web3,
   ethereum,
+  WithMetamask,
 };
